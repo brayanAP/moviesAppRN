@@ -1,15 +1,16 @@
 import React, {useState, useRef} from 'react';
 import {View, FlatList, ViewStyle} from 'react-native';
+import PaginationDot from '../PaginationDot';
 import style, {ITEM_MARGIN} from './style';
 
-interface Props<T> {
+type Props<T> = {
   data: T[];
   itemWidth: number;
   itemHeight: number;
   containerStyle?: ViewStyle;
   keyExtractor: (item: T, index: number) => string;
   renderItem: (item: T, style: ViewStyle) => React.ReactElement;
-}
+};
 
 type CarruselComponent = <T>(props: Props<T>) => React.ReactElement;
 
@@ -43,26 +44,18 @@ const Carrusel: CarruselComponent = ({
         decelerationRate="fast"
         viewabilityConfig={viewabilityConfigRef.current}
         onViewableItemsChanged={onViewableItemsChanged}
-        contentContainerStyle={style.contentContainer}
         renderItem={({item}) =>
           renderItem(item, {
-            ...style.itemContainer,
+            ...style.item,
             height: itemHeight,
             width: itemWidth,
           })
         }
       />
-      <View style={style.paginationContainer}>
-        {data.map((_, i: number) => (
-          <View
-            key={i}
-            style={[
-              style.paginationDot,
-              i === currentIndex ? style.paginationDotActive : null,
-            ]}
-          />
-        ))}
-      </View>
+      <PaginationDot
+        length={data.length}
+        evaluateDotActive={index => index === currentIndex}
+      />
     </View>
   );
 };

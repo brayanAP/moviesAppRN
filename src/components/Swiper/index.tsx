@@ -1,12 +1,13 @@
 import React, {useState, useRef} from 'react';
 import {View, FlatList} from 'react-native';
+import PaginationDot from '../PaginationDot';
 import style from './style';
 
-interface Props<T> {
+type Props<T> = {
   data: T[];
   keyExtractor: (item: T, index: number) => string;
   renderItem: (item: T) => React.ReactElement;
-}
+};
 
 type SwiperComponent = <T>(props: Props<T>) => React.ReactElement;
 
@@ -34,17 +35,10 @@ const Swiper: SwiperComponent = ({data, keyExtractor, renderItem}) => {
           <View style={style.item}>{renderItem(item)}</View>
         )}
       />
-      <View style={style.paginationContainer}>
-        {data.map((_, i: number) => (
-          <View
-            key={i}
-            style={[
-              style.paginationDot,
-              i === currentIndex ? style.paginationDotActive : null,
-            ]}
-          />
-        ))}
-      </View>
+      <PaginationDot
+        length={data.length}
+        evaluateDotActive={index => index === currentIndex}
+      />
     </View>
   );
 };
