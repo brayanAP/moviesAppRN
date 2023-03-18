@@ -18,6 +18,7 @@ const MoviesLandingScreen = () => {
         itemWidth={Dimensions.get('window').width * 0.65}
         itemHeight={400}
         containerStyle={{marginVertical: 20}}
+        keyExtractor={item => item.poster_path}
         renderItem={(item, styleContainer) => (
           <MoviePoster
             poster={item.poster_path}

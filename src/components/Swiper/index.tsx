@@ -3,13 +3,14 @@ import {View, FlatList} from 'react-native';
 import style from './style';
 
 interface Props<T> {
-  data: (T & {id: string | number})[];
+  data: T[];
+  keyExtractor: (item: T, index: number) => string;
   renderItem: (item: T) => React.ReactElement;
 }
 
 type SwiperComponent = <T>(props: Props<T>) => React.ReactElement;
 
-const Swiper: SwiperComponent = ({data, renderItem}) => {
+const Swiper: SwiperComponent = ({data, keyExtractor, renderItem}) => {
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const viewabilityConfigRef = useRef({viewAreaCoveragePercentThreshold: 50});
 
@@ -23,7 +24,7 @@ const Swiper: SwiperComponent = ({data, renderItem}) => {
     <View style={style.container}>
       <FlatList
         data={data}
-        keyExtractor={item => item.id.toString()}
+        keyExtractor={keyExtractor}
         horizontal
         pagingEnabled
         showsHorizontalScrollIndicator={false}

@@ -3,10 +3,11 @@ import {View, FlatList, ViewStyle} from 'react-native';
 import style, {ITEM_MARGIN} from './style';
 
 interface Props<T> {
-  data: (T & {id: string | number})[];
+  data: T[];
   itemWidth: number;
   itemHeight: number;
   containerStyle?: ViewStyle;
+  keyExtractor: (item: T, index: number) => string;
   renderItem: (item: T, style: ViewStyle) => React.ReactElement;
 }
 
@@ -17,6 +18,7 @@ const Carrusel: CarruselComponent = ({
   itemWidth,
   itemHeight,
   containerStyle,
+  keyExtractor,
   renderItem,
 }) => {
   const [currentIndex, setCurrentIndex] = useState<number>(0);
@@ -32,7 +34,7 @@ const Carrusel: CarruselComponent = ({
     <View style={[{height: itemHeight}, containerStyle]}>
       <FlatList
         data={data}
-        keyExtractor={item => item.id.toString()}
+        keyExtractor={keyExtractor}
         horizontal
         pagingEnabled={false}
         showsHorizontalScrollIndicator={false}
