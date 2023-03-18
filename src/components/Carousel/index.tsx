@@ -8,6 +8,7 @@ type Props<T> = {
   itemWidth: number;
   itemHeight: number;
   containerStyle?: ViewStyle;
+  showPagination?: boolean;
   keyExtractor: (item: T, index: number) => string;
   renderItem: (item: T, style: ViewStyle) => React.ReactElement;
 };
@@ -19,6 +20,7 @@ const Carrusel: CarruselComponent = ({
   itemWidth,
   itemHeight,
   containerStyle,
+  showPagination,
   keyExtractor,
   renderItem,
 }) => {
@@ -52,10 +54,12 @@ const Carrusel: CarruselComponent = ({
           })
         }
       />
-      <PaginationDot
-        length={data.length}
-        evaluateDotActive={index => index === currentIndex}
-      />
+      {showPagination && (
+        <PaginationDot
+          length={data.length}
+          evaluateDotActive={index => index === currentIndex}
+        />
+      )}
     </View>
   );
 };

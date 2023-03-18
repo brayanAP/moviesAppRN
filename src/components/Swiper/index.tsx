@@ -5,13 +5,19 @@ import style from './style';
 
 type Props<T> = {
   data: T[];
+  showPagination?: boolean;
   keyExtractor: (item: T, index: number) => string;
   renderItem: (item: T) => React.ReactElement;
 };
 
 type SwiperComponent = <T>(props: Props<T>) => React.ReactElement;
 
-const Swiper: SwiperComponent = ({data, keyExtractor, renderItem}) => {
+const Swiper: SwiperComponent = ({
+  data,
+  showPagination,
+  keyExtractor,
+  renderItem,
+}) => {
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const viewabilityConfigRef = useRef({viewAreaCoveragePercentThreshold: 50});
 
@@ -35,10 +41,12 @@ const Swiper: SwiperComponent = ({data, keyExtractor, renderItem}) => {
           <View style={style.item}>{renderItem(item)}</View>
         )}
       />
-      <PaginationDot
-        length={data.length}
-        evaluateDotActive={index => index === currentIndex}
-      />
+      {showPagination && (
+        <PaginationDot
+          length={data.length}
+          evaluateDotActive={index => index === currentIndex}
+        />
+      )}
     </View>
   );
 };
