@@ -13,9 +13,9 @@ type Props<T> = {
   renderItem: (item: T, style: ViewStyle) => React.ReactElement;
 };
 
-type CarruselComponent = <T>(props: Props<T>) => React.ReactElement;
+type CarouselComponent = <T>(props: Props<T>) => React.ReactElement;
 
-const Carrusel: CarruselComponent = ({
+const Carousel: CarouselComponent = ({
   data,
   itemWidth,
   itemHeight,
@@ -64,4 +64,4 @@ const Carrusel: CarruselComponent = ({
   );
 };
 
-export default Carrusel;
+export default Carousel;
