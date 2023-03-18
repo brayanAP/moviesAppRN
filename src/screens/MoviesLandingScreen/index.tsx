@@ -1,28 +1,31 @@
 import React from 'react';
-import {Button, Text, View, ActivityIndicator} from 'react-native';
+import {ActivityIndicator, Dimensions, ScrollView} from 'react-native';
+import MoviePoster from '../../components/MoviePoster';
+import Carousel from '../../components/Carousel';
 import useMoviesNowPlaying from '../../hooks/useMoviesNowPlaying';
 
 const MoviesLandingScreen = () => {
-  const {
-    moviesNowPlaying,
-    loadingMoviesNowPlaying,
-    nextPageMoviesNowPlaying,
-    responseMoviesNowPlaying,
-  } = useMoviesNowPlaying();
+  const {moviesNowPlaying, loadingMoviesNowPlaying} = useMoviesNowPlaying();
 
   if (loadingMoviesNowPlaying) {
     return <ActivityIndicator size="large" color="red" />;
   }
 
   return (
-    <View>
-      <Text>
-        {responseMoviesNowPlaying?.page}
-        {' to '}
-        {responseMoviesNowPlaying?.total_pages}
-      </Text>
-      <Button title="Siguiente" onPress={nextPageMoviesNowPlaying} />
-    </View>
+    <ScrollView>
+      <Carousel
+        data={moviesNowPlaying}
+        itemWidth={Dimensions.get('window').width * 0.65}
+        itemHeight={400}
+        containerStyle={{marginVertical: 20}}
+        renderItem={(item, styleContainer) => (
+          <MoviePoster
+            poster={item.poster_path}
+            styleContainer={styleContainer}
+          />
+        )}
+      />
+    </ScrollView>
   );
 };
 
